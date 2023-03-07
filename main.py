@@ -54,7 +54,6 @@ def get_per():
             return int(e.text[: e.text.find("%")])
     return -1
 
-
 def store(file):
     # take in a .csv file, file, append get_per() to the .csv file
     # store not only get_per but also the timestamp collected
@@ -65,15 +64,46 @@ def store(file):
         write_to.writerow(list)
         object.close()
 
-
 def get_last_date():
     pass
 
+def is_rsf_open():
+    driver=webdriver.Chrome(service=ser, desired_capabilities=capa)
 
-store("data.csv")
+    driver.get("https://www.google.com/search?q=rsf+open+now")
+    wait = WebDriverWait(driver, 20)
+
+    #time.sleep(5)
+    try:
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.wDYxhc')))
+    except TimeoutException:
+        pass
+
+    driver.execute_script("window.stop();")
+
+    resp = driver.page_source
+
+    soup = BeautifulSoup(resp, "html.parser")
+    #print(soup.find_all("div", {"class":"wDYxhc", "data-attrid": "kc:/location/location:hours"})[0])
+    #print(soup.find_all("span", {"class":"JjSWRd"}))
+    res = soup.find_all("span", {"class":"JjSWRd"})
+    #print(res)
+
+    for e in res:
+        if "Closed" in e.text:
+            #print(e.text)
+            return False
+    return True
+
+def run():
+    # check if it is currently open
+    # check last data entry
+    # if it's been more than a minite since last entry, call store
+    if is_rsf_open():
+        last_date = get_last_date()
+        if time - last_date // 60 > 1:
+            store('data.csv')
+    return
 
 
-# def run():
-# check if it is currently open
-# check last data entry
-# if it's been more than a minite since last entry, call store
+
