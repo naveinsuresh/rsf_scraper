@@ -54,6 +54,7 @@ def get_per():
             return int(e.text[: e.text.find("%")])
     return -1
 
+
 def store(file):
     # take in a .csv file, file, append get_per() to the .csv file
     # store not only get_per but also the timestamp collected
@@ -64,19 +65,22 @@ def store(file):
         write_to.writerow(list)
         object.close()
 
+
 def get_last_date():
-    
-    return
+    with open("data.csv", "r", encoding="utf-8", errors="ignore") as dime:
+        final_line = dime.readlines()[-1]
+    print(final_line)
+
 
 def is_rsf_open():
-    driver=webdriver.Chrome(service=ser, desired_capabilities=capa)
+    driver = webdriver.Chrome(service=ser, desired_capabilities=capa)
 
     driver.get("https://www.google.com/search?q=rsf+open+now")
     wait = WebDriverWait(driver, 20)
 
-    #time.sleep(5)
+    # time.sleep(5)
     try:
-        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.wDYxhc')))
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".wDYxhc")))
     except TimeoutException:
         pass
 
@@ -85,16 +89,17 @@ def is_rsf_open():
     resp = driver.page_source
 
     soup = BeautifulSoup(resp, "html.parser")
-    #print(soup.find_all("div", {"class":"wDYxhc", "data-attrid": "kc:/location/location:hours"})[0])
-    #print(soup.find_all("span", {"class":"JjSWRd"}))
-    res = soup.find_all("span", {"class":"JjSWRd"})
-    #print(res)
+    # print(soup.find_all("div", {"class":"wDYxhc", "data-attrid": "kc:/location/location:hours"})[0])
+    # print(soup.find_all("span", {"class":"JjSWRd"}))
+    res = soup.find_all("span", {"class": "JjSWRd"})
+    # print(res)
 
     for e in res:
         if "Closed" in e.text:
-            #print(e.text)
+            # print(e.text)
             return False
     return True
+
 
 def run():
     # check if it is currently open
@@ -103,8 +108,5 @@ def run():
     if is_rsf_open():
         last_date = get_last_date()
         if time - last_date // 60 > 1:
-            store('data.csv')
+            store("data.csv")
     return
-
-
-
