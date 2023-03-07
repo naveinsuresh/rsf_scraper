@@ -58,8 +58,8 @@ def get_per():
 def store(file):
     # take in a .csv file, file, append get_per() to the .csv file
     # store not only get_per but also the timestamp collected
-    td = datetime.fromtimestamp(time.time()).strftime("%A, %B %d, %Y %I:%M:%S")
-    list = [get_per(), td]
+    ts = time.time()
+    list = [get_per(), ts]
     with open(file, "a") as object:
         write_to = writer(object)
         write_to.writerow(list)
