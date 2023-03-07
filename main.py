@@ -65,7 +65,8 @@ def store(file):
         object.close()
 
 def get_last_date():
-    pass
+    
+    return
 
 def is_rsf_open():
     driver=webdriver.Chrome(service=ser, desired_capabilities=capa)
