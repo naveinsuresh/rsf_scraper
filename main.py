@@ -110,3 +110,6 @@ def run():
         if datetime.fromtimestamp(time.time()) - last_date // 60 > 1:
             store("data.csv")
     return
+
+
+store("data.csv")
