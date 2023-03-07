@@ -107,6 +107,6 @@ def run():
     # if it's been more than a minite since last entry, call store
     if is_rsf_open():
         last_date = get_last_date()
-        if time - last_date // 60 > 1:
+        if datetime.fromtimestamp(time.time()) - last_date // 60 > 1:
             store("data.csv")
     return
