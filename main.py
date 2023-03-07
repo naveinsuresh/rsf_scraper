@@ -112,4 +112,6 @@ def run():
     return
 
 
-store("data.csv")
+while True:
+    run()
+    time.sleep(30)
