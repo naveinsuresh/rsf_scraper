@@ -141,11 +141,11 @@ def run():
     return
 
 
-keep_alive()
-
-while is_rsf_open():
-    results = pd.read_csv("data.csv")
-    if len(results) + 1 == 1:
-        store("data.csv")
-    else:
-        run()
+if __name__ == "__main__":
+    while True:
+        if is_rsf_open():
+            results = pd.read_csv("data.csv")
+            if len(results) + 1 == 1:
+                store("data.csv")
+            else:
+                run()
